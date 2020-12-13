@@ -1,2 +1,6 @@
-# Create-Project
-This is start layout for React projects.
+# npm install
+Install all dependencies of project
+
+# npm start
+
+Start of project

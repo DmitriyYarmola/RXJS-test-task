@@ -11,18 +11,15 @@ interface PropsTypes {
 	cards: Observable<InformationBoardType[]> | null
 }
 export const Cards: React.FC<PropsTypes> = ({ cards }) => {
-	const [temperature, setTemperature] = useState<ActionType>()
-	const [airPressure, setAirPressure] = useState<ActionType>()
-	const [humidity, setHumidity] = useState<ActionType>()
+	const [temperature, setTemperature] = useState<ActionType>('N/A')
+	const [airPressure, setAirPressure] = useState<ActionType>('N/A')
+	const [humidity, setHumidity] = useState<ActionType>('N/A')
 
 	useEffect(() => {
 		const loadObservable = new Observable()
 		if (cards) {
 			cards
-				.pipe(
-					map((values: InformationBoardType[]) => values),
-					takeUntil(loadObservable)
-				)
+				.pipe(takeUntil(loadObservable))
 				.subscribe((yardsticksInformation: InformationBoardType[]) => {
 					yardsticksInformation.forEach((yardstick) => {
 						getYardstickValue(yardstick, setTemperature, setAirPressure, setHumidity)

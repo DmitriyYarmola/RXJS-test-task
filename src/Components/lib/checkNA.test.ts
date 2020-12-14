@@ -1,7 +1,13 @@
 import { checkNA } from './checkNA'
 import { createYardsticks } from './createInformationCards'
 
-const yardstickObjectFirst = { minTime: 100, maxTime: 2000, minValue: 1, maxValue: 40 }
+const yardstickObjectFirst = {
+	minTime: 100,
+	maxTime: 2000,
+	minValue: 1,
+	maxValue: 40,
+	type: 'temperatures',
+}
 
 const yardsticksNA = checkNA(
 	createYardsticks([yardstickObjectFirst, yardstickObjectFirst, yardstickObjectFirst])
@@ -10,8 +16,8 @@ const yardsticksNA = checkNA(
 describe('Check on N/A', () => {
 	test('Value should be N/A', () => {
 		yardsticksNA.map((yardstick) => {
-			return yardstick.subscribe((value) => {
-				expect(value).toBe('N/A')
+			return yardstick.subscribe((yardstickItem) => {
+				expect(yardstickItem.value).toBe('N/A')
 			})
 		})
 	})

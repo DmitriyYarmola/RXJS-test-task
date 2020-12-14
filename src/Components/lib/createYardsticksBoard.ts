@@ -1,22 +1,27 @@
 import { combineLatest, Observable } from 'rxjs'
-import { map, throttleTime } from 'rxjs/operators'
+import { filter, map, throttleTime } from 'rxjs/operators'
 import { checkNA } from './checkNA'
 
-export const createYardsticksBoard = (observables: Observable<number>[]) => {
+export const combineLatestObservables = (observables: Observable<number>[]) => {
 	return combineLatest(
 		checkNA(observables),
 		(observableTemperature, observableAirPressure, observableHumidity) => {
-			const values = [
-				observableTemperature,
-				observableAirPressure,
-				observableHumidity,
-			].map((value) => value)
+			const yardsticks = [
+				{ type: 'temperature', value: observableTemperature },
+				{ type: 'airPressure', value: observableAirPressure },
+				{ type: 'humidity', value: observableHumidity },
+			]
 			return {
-				values,
+				yardsticks,
+				yardstick: yardsticks[0],
 			}
 		}
-	).pipe(
-		throttleTime(100),
-		map(({ values }) => values)
+	)
+}
+export const createYardsticksBoard = (observables: Observable<number>[]) => {
+	return combineLatestObservables(observables).pipe(
+		filter(({ yardstick }) => yardstick.value !== 'N/A'),
+		map(({ yardsticks }) => yardsticks),
+		throttleTime(100)
 	)
 }

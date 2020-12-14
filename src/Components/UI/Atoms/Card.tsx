@@ -8,7 +8,7 @@ interface PropsTypes {
 }
 export const Card: React.FC<PropsTypes> = ({ icon, title, subtitle }) => {
 	return (
-		<CardComponent>
+		<CardComponent data-test='dateTab1'>
 			<Icon src={icon} alt='' />
 			<Title>{title}</Title>
 			<SubTitle>{subtitle}</SubTitle>

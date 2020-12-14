@@ -2,55 +2,40 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { map, takeUntil } from 'rxjs/operators'
 import { Observable } from 'rxjs'
+import { getYardstickValue } from '@Components/lib'
+import { InformationBoardType, ActionType } from '@src/Interfaces'
 import { Card } from '../Atoms'
 import { airPressureIcon, humidityIcon, temperateIcon } from '../Images'
 
 interface PropsTypes {
-	cards: Observable<(string | number)[]> | null
+	cards: Observable<InformationBoardType[]> | null
 }
 export const Cards: React.FC<PropsTypes> = ({ cards }) => {
-	const [yardsticksInformation, setYardsticksInformation] = useState<{
-		[key: string]: string | number
-	}>()
+	const [temperature, setTemperature] = useState<ActionType>()
+	const [airPressure, setAirPressure] = useState<ActionType>()
+	const [humidity, setHumidity] = useState<ActionType>()
+
 	useEffect(() => {
 		const loadObservable = new Observable()
 		if (cards) {
 			cards
 				.pipe(
-					map((values: (number | string)[]) => {
-						const [temperature, humidity, airPressure] = values
-						return { temperature, humidity, airPressure }
-					}),
+					map((values: InformationBoardType[]) => values),
 					takeUntil(loadObservable)
 				)
-				.subscribe(
-					(
-						yardsticksInformation: React.SetStateAction<
-							{ [key: string]: React.ReactText } | undefined
-						>
-					) => {
-						setYardsticksInformation(yardsticksInformation)
-					}
-				)
+				.subscribe((yardsticksInformation: InformationBoardType[]) => {
+					yardsticksInformation.forEach((yardstick) => {
+						getYardstickValue(yardstick, setTemperature, setAirPressure, setHumidity)
+					})
+				})
 		}
 	}, [cards])
+
 	return (
 		<Items>
-			<Card
-				icon={temperateIcon}
-				title='Temperature'
-				subtitle={yardsticksInformation?.temperature || 'N/A'}
-			/>
-			<Card
-				icon={humidityIcon}
-				title='Humidity'
-				subtitle={yardsticksInformation?.humidity || 'N/A'}
-			/>
-			<Card
-				icon={airPressureIcon}
-				title='Air pressure'
-				subtitle={yardsticksInformation?.airPressure || 'N/A'}
-			/>
+			<Card icon={temperateIcon} title='Temperature' subtitle={temperature} />
+			<Card icon={humidityIcon} title='Humidity' subtitle={airPressure} />
+			<Card icon={airPressureIcon} title='Air pressure' subtitle={humidity} />
 		</Items>
 	)
 }

@@ -71,15 +71,16 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.json', '.png', '.svg', '.xml', '.ts', '.jsx', '.tsx'],
 		alias: {
-			'@Components' : path.resolve(__dirname, './src/Components'),
-			'@': path.resolve(__dirname, 'src'),
+			'@Components': path.resolve(__dirname, './src/Components'),
+			'@Interfaces': path.resolve(__dirname, './src/Interfaces'),
+			'@': path.resolve(__dirname, './src'),
 		},
 	},
 	optimization: optimization(),
 	devServer: {
 		port: 4200,
 		hot: isDev,
-		historyApiFallback: true
+		historyApiFallback: true,
 	},
 	devtool: isDev ? 'source-map' : '',
 	plugins: [
@@ -147,10 +148,10 @@ module.exports = {
 				use: ['csv-loader'],
 			},
 			{
-            	test: /\.js$/,
-            	exclude: /node_modules/,
-            	use: jsLoaders(),
-            },
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: jsLoaders(),
+			},
 			{
 				test: /\.jsx$/,
 				loader: 'babel-loader',

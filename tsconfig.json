@@ -14,9 +14,12 @@
 		"isolatedModules": true,
 		"noEmit": false,
 		"jsx": "react",
+		"types": ["jest", "react"],
 		"baseUrl": "src",
 		"paths": {
-			"@Components/*": ["Components/*"]
+			"@Components/*": ["Components/*"],
+			"@Interfaces/*": ["Interfaces/*"],
+			"@src/*": ["./*"]
 		}
 	},
 	"include": ["src/**/*"],

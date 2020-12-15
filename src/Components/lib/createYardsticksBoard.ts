@@ -17,7 +17,6 @@ export const createYardsticksBoard = (
 	observables: Observable<InformationBoardType>[]
 ) => {
 	return combineLatestObservables(observables).pipe(
-		filter(({ yardsticks }) => yardsticks[0].value !== 'N/A'),
 		map(({ yardsticks }) => yardsticks),
 		throttleTime(100)
 	)

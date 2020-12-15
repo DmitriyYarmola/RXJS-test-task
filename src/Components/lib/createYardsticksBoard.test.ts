@@ -18,7 +18,7 @@ const yardsticks = createYardsticks([
 describe('Create information board', () => {
 	test('All observables should have value', () => {
 		const combinedLatestObservables = combineLatestObservables(yardsticks)
-		combinedLatestObservables.subscribe(({ yardsticks }) => {
+		combinedLatestObservables.subscribe((yardsticks) => {
 			expect(yardsticks.length).toBe(3)
 		})
 	})
